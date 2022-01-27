@@ -1,8 +1,9 @@
 import { Box, Button, Text, TextField, Image } from '@skynexui/components';
-import GlobalStyle from '../components/GlobalStyle';
 import appConfig from '../config.json';
 import Titulo from '../components/Titulo';
 import Head from 'next/head';
+import React from 'react';
+import { useRouter } from 'next/router';
 
 function Background(props) {
     return (
@@ -55,19 +56,24 @@ function App(props) {
 }
 
 export default function HomePage() {
-    const username = 'CaioSimioni';
+    const [username, setUsername] = React.useState('CaioSimioni');
+    const roteamento = useRouter();
 
     return (
         <>
             <Head>
                 <title>{appConfig.name}</title>
             </Head>
-            <GlobalStyle />
             <Background>
                 <App>
                     {/* Formulário */}
                     <Box
                         as="form"
+                        onSubmit={(event) => {
+                            event.preventDefault();
+                            console.log('Formulário enviado.');
+                            roteamento.push(`/chat`);
+                        }}
                         styleSheet={{
                             display: 'flex',
                             flexDirection: 'column',
@@ -99,7 +105,12 @@ export default function HomePage() {
                                     backgroundColor: appConfig.theme.colors.neutrals[800],
                                 },
                             }}
-                            placeholder="Nome/E-Mail"
+                            placeholder="Usuário"
+                            value={username}
+                            onChange={(event) => {
+                                const valor = event.target.value;
+                                setUsername(valor);
+                            }}
                         />
                         <Button
                             type='submit'

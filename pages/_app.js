@@ -1,5 +1,6 @@
 
-export default function GlobalStyle() {
+
+function GlobalStyle() {
     return (
         <style global jsx>{`
             * {
@@ -27,3 +28,12 @@ export default function GlobalStyle() {
         `}</style>
     );
 };
+
+export default function App({ Component, pageProps }) {
+    return (
+        <>
+            <GlobalStyle />
+            <Component {...pageProps} />
+        </>
+    )
+}
